@@ -7,11 +7,11 @@ import {connect } from 'react-redux';
 import {addToBasket} from "../actions";
 
 const BookListItem = ({book, onAddToBasket}) => {
-    const { id, title, author, price, coverImage } = book;
+    const { id, title, author, price, imageUrl } = book;
     return (
         <div className="book-list-item">
             <div className="book-cover">
-                <img src={coverImage} alt="cover" />
+                <img src={imageUrl} alt="cover" />
             </div>
             <div className="book-details">
                 <Link to={Routes.CART.replace(':id', id)}>

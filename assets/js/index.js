@@ -5,7 +5,7 @@ import {BookStoreProvider} from "./components/context";
 import {BrowserRouter as Router} from 'react-router-dom';
 import {App, ErrorBoundary} from "./components";
 import store from "./strore";
-import {BookStore as BookStoreService} from "./services";
+import {BookStoreService} from "./services";
 
 const bookStoreService = new BookStoreService();
 
