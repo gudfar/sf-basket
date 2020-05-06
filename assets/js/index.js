@@ -19,6 +19,5 @@ ReactDOM.render(
             </BookStoreProvider>
         </ErrorBoundary>
     </Provider>,
-
     document.getElementById('root')
 );

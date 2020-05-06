@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="book")
- * @Serializer\ExclusionPolicy("ALL")
  */
 class Book {
 
@@ -15,31 +13,26 @@ class Book {
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Expose()
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
-     * @Serializer\Expose()
      */
     private $title;
 
     /**
      * @ORM\Column(type="string")
-     * @Serializer\Expose()
      */
     private $author;
 
     /**
      * @ORM\Column(type="integer")
-     * @Serializer\Expose()
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Serializer\Expose()
      */
     private $imageUrl;
 

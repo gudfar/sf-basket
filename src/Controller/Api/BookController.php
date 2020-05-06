@@ -4,7 +4,6 @@ namespace App\Controller\Api;
 
 use App\Entity\Book;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
 
@@ -31,7 +30,7 @@ class BookController extends AbstractFOSRestController
      *     )
      * )
      * @Rest\Get("/api/books", name="api_books")
-     * @return Response
+     * @Rest\View()
      */
     public function getBooksAction()
     {
@@ -39,6 +38,6 @@ class BookController extends AbstractFOSRestController
             ->getRepository(Book::class)
             ->findAll();
 
-        return $this->handleView($this->view($books));
+        return $books;
     }
 }
