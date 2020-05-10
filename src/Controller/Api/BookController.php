@@ -31,7 +31,6 @@ class BookController extends AbstractFOSRestController
      *     )
      * )
      * @Rest\Get("/api/books", name="api_books")
-     * @Cache(expires="tomorrow", public=true)
      * @Rest\View()
      */
     public function getBooksAction()
