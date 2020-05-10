@@ -2,36 +2,38 @@
 
 namespace App\Entity;
 
+use App\Repository\BasketItemRepository;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="basket_item")
- * @Serializer\ExclusionPolicy("ALL")
+ * @ORM\Entity(repositoryClass=BasketItemRepository::class)
  */
 class BasketItem
 {
     /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $title;
+    private $quantity;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity=Book::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $count;
+    private $book;
+
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Basket::class, inversedBy="basketItems")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $amount;
+    private $basket;
+
 
     /**
      * @return int|null
@@ -42,58 +44,58 @@ class BasketItem
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getTitle(): ?string
+    public function getQuantity(): ?int
     {
-        return $this->title;
+        return $this->quantity;
     }
 
     /**
-     * @param string $title
+     * @param int $quantity
      * @return BasketItem
      */
-    public function setTitle(string $title): self
+    public function setQuantity(int $quantity): self
     {
-        $this->title = $title;
+        $this->quantity = $quantity;
 
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return Book|null
      */
-    public function getCount(): ?int
+    public function getBook(): ?Book
     {
-        return $this->count;
+        return $this->book;
     }
 
     /**
-     * @param int $count
+     * @param Book $book
      * @return BasketItem
      */
-    public function setCount(int $count): self
+    public function setBook(Book $book): self
     {
-        $this->count = $count;
+        $this->book = $book;
 
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return Basket|null
      */
-    public function getAmount(): ?int
+    public function getBasket(): ?Basket
     {
-        return $this->amount;
+        return $this->basket;
     }
 
     /**
-     * @param int $amount
+     * @param Basket|null $basket
      * @return BasketItem
      */
-    public function setAmount(int $amount): self
+    public function setBasket(?Basket $basket): self
     {
-        $this->amount = $amount;
+        $this->basket = $basket;
 
         return $this;
     }
