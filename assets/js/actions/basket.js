@@ -36,8 +36,13 @@ const decreaseBasketItemCount = (id, dispatch) => {
 };
 
 const deleteBasketItem = (id, dispatch) => {
-    dispatch({type: actionTypes.DELETE_BASKET_ITEM, payload: id});
-    dispatch(calculateBasketAmount());
+    dispatch(basketRequested());
+    basketService.deleteBasketItem(id)
+        .then(() => {
+            dispatch({type: actionTypes.DELETE_BASKET_ITEM, payload: id});
+            dispatch(calculateBasketAmount());
+        })
+        .catch((error) => dispatch(basketFailed(error)));
 };
 
 export {

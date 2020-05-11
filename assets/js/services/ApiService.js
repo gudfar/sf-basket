@@ -26,5 +26,20 @@ export default class ApiService {
                 `, received ${data.status}`)
         }
         return await data.json();
+    };
+
+    deleteData = async (url) => {
+        const data = await fetch(`${this._apiBaseUrl}${url}`, {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+        });
+        if (!data.ok) {
+            throw new Error(`Could not delete ${url}` +
+                `, received ${data.status}`)
+        }
+        return await data.json();
     }
 }

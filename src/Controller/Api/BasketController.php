@@ -52,4 +52,25 @@ class BasketController extends AbstractFOSRestController
         return $basketItem;
     }
 
+
+    /**
+     * @Rest\Delete("/api/basket/{id}", name="api_basket_delete")
+     * @param int $id
+     * @return Response
+     */
+    public function deleteAction(int $id)
+    {
+        /** @var Book $book */
+        $basketItem = $this->getDoctrine()
+            ->getRepository(BasketItem::class)
+            ->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($basketItem);
+        $em->flush();
+
+        return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+    }
+
 }
