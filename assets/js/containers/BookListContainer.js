@@ -34,11 +34,6 @@ const mapStateToProps = ({booksReducer: state}) => {
     };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//     return bindActionCreators({
-//         booksLoaded
-//     }, dispatch);
-// };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     const { bookStoreService } = ownProps;
@@ -46,12 +41,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         fetchBooks: fetchBooks(bookStoreService, dispatch)
     }
 };
-
-// const mapDispatchToProps =  {
-//     booksLoaded,
-//     booksRequested,
-//     booksFailed
-// };
 
 export default compose(
     withBookstore,

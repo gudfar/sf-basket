@@ -2,8 +2,17 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 import '../../css/shopping-cart-table.css';
 import {increaseBasketItemCount, decreaseBasketItemCount, deleteBasketItem} from "../actions";
+import {ErrorIndicator, Spinner} from "../components";
 
-const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete }) => {
+const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete, loading, error }) => {
+
+    if (loading) {
+        return (<Spinner/>);
+    }
+
+    if (error) {
+        return (<ErrorIndicator/>);
+    }
 
     return (
         <div className="shopping-cart-table">
@@ -63,12 +72,7 @@ const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete }) => 
     );
 };
 
-const mapStateToProps = ({basketReducer: {items, total}}) => {
-    return {
-        items,
-        total
-    }
-};
+const mapStateToProps = ({basketReducer: state}) => (state);
 
 const mapDispatchToProps = (dispatch) => {
     return {

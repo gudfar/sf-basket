@@ -3,6 +3,8 @@ import * as actionTypes from '../constants/actionTypes';
 const initialState = {
     items: [],
     total: 0,
+    loading: null,
+    error: null
 };
 
 /**
@@ -13,6 +15,18 @@ const basketReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_TO_BASKET:
             return saveToBasket(state, action);
+        case actionTypes.BASKET_REQUESTED:
+            return {
+                items: state.items,
+                loading: true,
+                error: null
+            };
+        case actionTypes.BASKET_FAILED:
+            return {
+                items: state.items,
+                loading: false,
+                error: action.payload
+            };
         case actionTypes.CALCULATE_BASKET_AMOUNT:
             return calculateBasketAmount(state);
         case actionTypes.INCREASE_BASKET_ITEM_COUNT:
@@ -51,7 +65,10 @@ const saveToBasket = (state, {payload: item}, countValue = 1) => {
         items: [
             ...items,
             newItem
-        ]
+        ],
+        loading: null,
+        error: null,
+
     };
 };
 
@@ -89,7 +106,9 @@ const updateBasketItem = (idx, state, countValue) => {
 
     return {
         ...state,
-        items
+        items,
+        loading: null,
+        error: null,
     };
 };
 

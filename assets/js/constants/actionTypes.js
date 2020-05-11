@@ -5,8 +5,11 @@ export const BOOKS_FAILED = 'FETCH_BOOKS_FAILURE';
 /**
  * Basket
  */
+export const BASKET_REQUESTED           = 'BASKET_REQUESTED';
 export const ADD_TO_BASKET              = 'ADD_TO_BASKET';
+export const BASKET_FAILED              = 'BASKET_FAILED';
+
 export const CALCULATE_BASKET_AMOUNT    = 'CALCULATE_BASKET_AMOUNT';
+export const DELETE_BASKET_ITEM         = 'DELETE_BASKET_ITEM';
 export const INCREASE_BASKET_ITEM_COUNT = 'INCREASE_BASKET_ITEM_COUNT';
 export const DECREASE_BASKET_ITEM_COUNT = 'DECREASE_BASKET_ITEM_COUNT';
-export const DELETE_BASKET_ITEM         = 'DELETE_BASKET_ITEM';

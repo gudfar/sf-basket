@@ -6,7 +6,7 @@ import * as Routes from '../constants/routes';
 import {connect } from 'react-redux';
 import {addToBasket} from "../actions";
 
-const BookListItem = ({book, onAddToBasket}) => {
+const BookListItem = ({book, onAddToBasket, loading}) => {
     const { id, title, author, price, imageUrl } = book;
     return (
         <div className="book-list-item">
@@ -19,7 +19,7 @@ const BookListItem = ({book, onAddToBasket}) => {
                 </Link>
                 <div className="book-author">{author}</div>
                 <div className="book-price">${price}</div>
-                <button onClick={() => onAddToBasket(book)} className="btn btn-info add-to-cart">Add to cart</button>
+                <button disabled={loading} onClick={() => onAddToBasket(book)} className="btn btn-info add-to-cart">Add to cart</button>
             </div>
 
         </div>
@@ -30,6 +30,8 @@ BookListItem.propTypes = {
     book: PropTypes.object.isRequired,
 };
 
+const mapStateToProps = ({basketReducer: {loading}}) => ({loading});
+
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -37,4 +39,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(BookListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(BookListItem);

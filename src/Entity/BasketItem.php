@@ -23,17 +23,10 @@ class BasketItem
     private $quantity;
 
     /**
-     * @ORM\OneToOne(targetEntity=Book::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Book::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $book;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Basket::class, inversedBy="basketItems")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $basket;
-
 
     /**
      * @return int|null
@@ -62,40 +55,14 @@ class BasketItem
         return $this;
     }
 
-    /**
-     * @return Book|null
-     */
     public function getBook(): ?Book
     {
         return $this->book;
     }
 
-    /**
-     * @param Book $book
-     * @return BasketItem
-     */
-    public function setBook(Book $book): self
+    public function setBook(?Book $book): self
     {
         $this->book = $book;
-
-        return $this;
-    }
-
-    /**
-     * @return Basket|null
-     */
-    public function getBasket(): ?Basket
-    {
-        return $this->basket;
-    }
-
-    /**
-     * @param Basket|null $basket
-     * @return BasketItem
-     */
-    public function setBasket(?Basket $basket): self
-    {
-        $this->basket = $basket;
 
         return $this;
     }
