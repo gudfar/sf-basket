@@ -21,7 +21,7 @@ const ShopHeader = ({ itemsCount, total }) => {
 const mapStateToProps = ({basketReducer: {items, total}}) => {
     return {
         total,
-        itemsCount: items.reduce((count, item) => count + item.count, 0)
+        itemsCount: items.reduce((quantity, item) => quantity + item.quantity, 0)
     };
 };
 

@@ -5,6 +5,6 @@ export default class BasketService {
     apiService = new ApiService();
 
     saveToBasket = async(id) => {
-        return  await this.apiService.saveData('/basket', {id});
+        return  await this.apiService.saveData('/basket', {id, userId: 1});
     };
 }

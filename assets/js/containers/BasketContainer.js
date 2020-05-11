@@ -33,12 +33,12 @@ const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete, loadi
                             </thead>
                             <tbody>
                             { items.map((item, index) => {
-                                const { id, title, count, price } = item;
+                                const { id, title, quantity, price } = item;
                                 return (
                                     <tr key={id}>
-                                        <td>{index + 1}</td>
+                                        <td>{id}</td>
                                         <td>{title}</td>
-                                        <td>{count}</td>
+                                        <td>{quantity}</td>
                                         <td>${price}</td>
                                         <td>
                                             <button

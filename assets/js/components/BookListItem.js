@@ -19,7 +19,7 @@ const BookListItem = ({book, onAddToBasket, loading}) => {
                 </Link>
                 <div className="book-author">{author}</div>
                 <div className="book-price">${price}</div>
-                <button disabled={loading} onClick={() => onAddToBasket(book)} className="btn btn-info add-to-cart">Add to cart</button>
+                <button disabled={loading} onClick={() => onAddToBasket(book.id)} className="btn btn-info add-to-cart">Add to cart</button>
             </div>
 
         </div>
@@ -35,7 +35,7 @@ const mapStateToProps = ({basketReducer: {loading}}) => ({loading});
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddToBasket: (book) => addToBasket(book, dispatch)
+        onAddToBasket: (id) => addToBasket(id, dispatch)
     };
 };
 

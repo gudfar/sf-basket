@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
@@ -18,6 +19,7 @@ class Book {
 
     /**
      * @ORM\Column(type="string")
+     * @Groups("basket_item")
      */
     private $title;
 
@@ -28,6 +30,7 @@ class Book {
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("basket_item")
      */
     private $price;
 

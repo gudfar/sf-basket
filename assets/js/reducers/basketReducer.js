@@ -46,25 +46,34 @@ const basketReducer = (state = initialState, action) => {
  * @param countValue
  * @returns {{items: *}|{items: *[]}}
  */
-const saveToBasket = (state, {payload: item}, countValue = 1) => {
+const saveToBasket = (state, {payload: {id, quantity, book: {title, price}}}, countValue = 1) => {
     const { items } = state;
-
-    const itemIndex = items.findIndex(i => i.id === item.id);
+    debugger;
+    const itemIndex = items.findIndex(i => i.id === id);
     if (itemIndex !== -1) {
-        return updateBasketItem(itemIndex, state, countValue)
+
+        const items = [...state.items];
+        items[itemIndex]['quantity'] = quantity;
+        items[itemIndex]['price'] =  price * quantity;
+
+        return {
+            ...state,
+            items,
+            loading: null,
+            error: null,
+        };
     }
 
-    const newItem = {
-        id: item.id,
-        title: item.title,
-        count: 1,
-        price: item.price
-    };
     return {
         ...state,
         items: [
             ...items,
-            newItem
+            {
+                id,
+                title,
+                quantity,
+                price: price * quantity
+            }
         ],
         loading: null,
         error: null,
@@ -72,12 +81,6 @@ const saveToBasket = (state, {payload: item}, countValue = 1) => {
     };
 };
 
-const calculateBasketItemCount = (currentCount, value) => {
-    return {
-        oldCount: currentCount,
-        count: currentCount + value,
-    };
-};
 
 const deleteBasketItem = (state, {payload: id}) => {
     const items = [...state.items];
@@ -86,29 +89,6 @@ const deleteBasketItem = (state, {payload: id}) => {
     return {
         ...state,
         items
-    };
-};
-/**
- * @param idx
- * @param state
- * @param countValue
- * @returns {{items: *}}
- */
-const updateBasketItem = (idx, state, countValue) => {
-    const items = [...state.items];
-    const {oldCount, count} = calculateBasketItemCount(items[idx]['count'], countValue);
-    items[idx]['count'] = count;
-    items[idx]['price'] = items[idx]['price'] / oldCount * count;
-
-    if (items[idx]['count'] === 0) {
-        items.splice(idx, 1);
-    }
-
-    return {
-        ...state,
-        items,
-        loading: null,
-        error: null,
     };
 };
 

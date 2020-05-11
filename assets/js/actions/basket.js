@@ -13,11 +13,11 @@ const basketFailed = (error) => ({
     payload: error
 });
 
-const addToBasket = (item, dispatch) => {
+const addToBasket = (id, dispatch) => {
     dispatch(basketRequested());
-    basketService.saveToBasket(item.id)
-        .then(() => {
-            dispatch({type: actionTypes.ADD_TO_BASKET, payload: item});
+    basketService.saveToBasket(id)
+        .then((data) => {
+            dispatch({type: actionTypes.ADD_TO_BASKET, payload: data});
             dispatch(calculateBasketAmount());
         })
         .catch((error) => dispatch(basketFailed(error)));
