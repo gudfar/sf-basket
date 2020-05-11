@@ -83,7 +83,9 @@ const deleteBasketItem = (state, {payload: id}) => {
     items.splice(itemIndex, 1);
     return {
         ...state,
-        items
+        items,
+        loading: null,
+        error: null,
     };
 };
 
