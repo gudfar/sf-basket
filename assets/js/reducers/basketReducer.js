@@ -48,14 +48,11 @@ const basketReducer = (state = initialState, action) => {
  */
 const saveToBasket = (state, {payload: {id, quantity, book: {title, price}}}, countValue = 1) => {
     const { items } = state;
-    debugger;
     const itemIndex = items.findIndex(i => i.id === id);
     if (itemIndex !== -1) {
-
         const items = [...state.items];
         items[itemIndex]['quantity'] = quantity;
         items[itemIndex]['price'] =  price * quantity;
-
         return {
             ...state,
             items,
@@ -63,7 +60,6 @@ const saveToBasket = (state, {payload: {id, quantity, book: {title, price}}}, co
             error: null,
         };
     }
-
     return {
         ...state,
         items: [
@@ -77,7 +73,6 @@ const saveToBasket = (state, {payload: {id, quantity, book: {title, price}}}, co
         ],
         loading: null,
         error: null,
-
     };
 };
 
