@@ -3,7 +3,7 @@ export default class ApiService {
 
     _apiBaseUrl = 'http://localhost:8011/api';
 
-    getData = async(url) => {
+    get = async(url) => {
         const data = await fetch(`${this._apiBaseUrl}${url}`);
         if (!data.ok) {
             throw new Error(`Could not fetch ${url}` +
@@ -12,7 +12,7 @@ export default class ApiService {
         return await data.json();
     };
 
-    saveData = async (url, payload) => {
+    post = async (url, payload) => {
         const data = await fetch(`${this._apiBaseUrl}${url}`, {
             method: "POST",
             headers: {
@@ -28,7 +28,7 @@ export default class ApiService {
         return await data.json();
     };
 
-    deleteData = async (url) => {
+    delete = async (url) => {
         const data = await fetch(`${this._apiBaseUrl}${url}`, {
             method: "DELETE",
             headers: {

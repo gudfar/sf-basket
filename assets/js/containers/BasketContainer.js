@@ -1,10 +1,25 @@
-import React, {Fragment} from 'react';
-import { connect } from 'react-redux';
+import React, {Fragment, useEffect} from 'react';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import '../../css/shopping-cart-table.css';
-import {increaseBasketItemCount, decreaseBasketItemCount, deleteBasketItem} from "../actions";
+import {
+    increaseBasketItemCount,
+    decreaseBasketItemCount,
+    deleteBasketItem,
+    fetchBasketItems
+} from "../actions";
 import {ErrorIndicator, Spinner} from "../components";
 
-const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete, loading, error }) => {
+const BasketContainer = () => {
+
+    const dispatch = useDispatch();
+    const { items, loading, error, total } = useSelector(
+        ({basketReducer: {items, loading, error, total}}) => ({items, loading, error, total})
+    );
+
+    useEffect(() => {
+        fetchBasketItems(dispatch);
+    }, [dispatch]);
+
 
     if (loading) {
         return (<Spinner/>);
@@ -32,7 +47,7 @@ const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete, loadi
                             </tr>
                             </thead>
                             <tbody>
-                            { items.map((item, index) => {
+                            { items.map((item) => {
                                 const { id, title, quantity, price } = item;
                                 return (
                                     <tr key={id}>
@@ -42,17 +57,17 @@ const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete, loadi
                                         <td>${price}</td>
                                         <td>
                                             <button
-                                                onClick={() => onDelete(id)}
+                                                onClick={() => deleteBasketItem(id, dispatch)}
                                                 className="btn btn-outline-danger btn-sm float-right">
                                                 <i className="fa fa-trash-o" />
                                             </button>
                                             <button
-                                                onClick={() => onIncrease(id)}
+                                                // onClick={() => onIncrease(id)}
                                                 className="btn btn-outline-success btn-sm float-right">
                                                 <i className="fa fa-plus-circle" />
                                             </button>
                                             <button
-                                                onClick={() => onDecrease(id)}
+                                                // onClick={() => onDecrease(id)}
                                                 className="btn btn-outline-warning btn-sm float-right">
                                                 <i className="fa fa-minus-circle" />
                                             </button>
@@ -72,15 +87,4 @@ const BasketContainer = ({ items, total, onIncrease, onDecrease, onDelete, loadi
     );
 };
 
-const mapStateToProps = ({basketReducer: state}) => (state);
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onIncrease: (id) => increaseBasketItemCount(id, dispatch),
-        onDelete: (id) => deleteBasketItem(id, dispatch),
-        onDecrease: (id) => decreaseBasketItemCount(id, dispatch),
-    }
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(BasketContainer);
+export default BasketContainer;

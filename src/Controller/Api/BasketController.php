@@ -7,7 +7,6 @@ use App\Entity\Book;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class BasketController
@@ -15,6 +14,25 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class BasketController extends AbstractFOSRestController
 {
+    /**
+     *
+     * @Rest\Get("/api/basket/{userId}", name="api_basket_items")
+     * @param int $userId
+     * @Rest\View()
+     * @return object[]
+     */
+    public function getBasketItems(int $userId)
+    {
+        /** @var Book $book */
+        $basketItems = $this->getDoctrine()
+            ->getRepository(BasketItem::class)
+            ->findBy(['user' => $userId]);
+
+        return $basketItems;
+    }
+
+
+
     /**
      * @Rest\Post("/api/basket", name="api_basket_save")
      * @Rest\RequestParam(name="id", requirements="\d+", description="Book Id")

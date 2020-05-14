@@ -21,6 +21,8 @@ const basketReducer = (state = initialState, action) => {
                 loading: true,
                 error: null
             };
+        case actionTypes.BASKET_LOADED:
+            return loadBasket(action);
         case actionTypes.BASKET_FAILED:
             return {
                 items: state.items,
@@ -37,6 +39,33 @@ const basketReducer = (state = initialState, action) => {
             return deleteBasketItem(state, action);
         default:
             return state;
+    }
+};
+
+
+const loadBasket = ({payload}) => {
+
+    if (!payload.length) {
+        return {
+            loading: false,
+            error: null,
+            items: payload
+        }
+    }
+
+    const items = payload.map(({id, quantity, book: {title, price}}) => (
+        {
+            id,
+            title,
+            quantity,
+            price: price * quantity
+        }
+    ));
+
+    return {
+        items,
+        loading: false,
+        error: null
     }
 };
 

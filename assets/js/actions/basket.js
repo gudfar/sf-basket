@@ -7,6 +7,10 @@ const basketRequested = () => ({
     type: actionTypes.BASKET_REQUESTED
 });
 
+const basketLoaded = (basketList) => ({
+    type: actionTypes.BASKET_LOADED,
+    payload: basketList
+});
 
 const basketFailed = (error) => ({
     type: actionTypes.BASKET_FAILED,
@@ -21,6 +25,14 @@ const addToBasket = (id, dispatch) => {
             dispatch(calculateBasketAmount());
         })
         .catch((error) => dispatch(basketFailed(error)));
+};
+
+const fetchBasketItems = (dispatch) => {
+    dispatch(basketRequested());
+    basketService.getBasketItems()
+        .then((data) => dispatch(basketLoaded(data)))
+        .catch((error) => dispatch(basketFailed(error)));
+
 };
 
 const calculateBasketAmount = () => ({type: actionTypes.CALCULATE_BASKET_AMOUNT});
@@ -49,5 +61,6 @@ export {
     addToBasket,
     increaseBasketItemCount,
     decreaseBasketItemCount,
-    deleteBasketItem
+    deleteBasketItem,
+    fetchBasketItems
 };

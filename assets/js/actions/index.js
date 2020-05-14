@@ -1,10 +1,11 @@
 import {fetchBooks} from "./books";
-import {addToBasket, increaseBasketItemCount, decreaseBasketItemCount, deleteBasketItem} from "./basket";
+import {addToBasket, increaseBasketItemCount, decreaseBasketItemCount, deleteBasketItem, fetchBasketItems} from "./basket";
 
 export {
     fetchBooks,
     addToBasket,
     increaseBasketItemCount,
     decreaseBasketItemCount,
-    deleteBasketItem
+    deleteBasketItem,
+    fetchBasketItems
 };

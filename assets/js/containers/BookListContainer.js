@@ -1,48 +1,30 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {BookList, ErrorIndicator, Spinner} from "../components";
-import {connect } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {withBookstore} from "../components/hoc";
 import {fetchBooks} from "../actions";
-import {compose} from '../utils'
 
-class BookListContainer extends Component {
+const BookListContainer = ({bookStoreService}) => {
 
-    componentDidMount() {
-        this.props.fetchBooks();
+    const dispatch = useDispatch();
+    const { books, loading, error } = useSelector(
+        ({booksReducer: {books, loading, error}}) => ({books, loading, error})
+    );
+
+    useEffect(() => {
+        fetchBooks(bookStoreService, dispatch);
+    }, [dispatch]);
+
+
+    if (loading) {
+        return (<Spinner/>);
     }
 
-    render() {
-        const {books, loading, error} = this.props;
-
-        if (loading) {
-            return (<Spinner/>);
-        }
-
-        if (error) {
-            return (<ErrorIndicator/>);
-        }
-
-        return <BookList books={books}/>
+    if (error) {
+        return (<ErrorIndicator/>);
     }
+
+    return <BookList books={books}/>
 };
 
-const mapStateToProps = ({booksReducer: state}) => {
-    return {
-        books: state.books,
-        loading: state.loading,
-        error: state.error
-    };
-};
-
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    const { bookStoreService } = ownProps;
-    return {
-        fetchBooks: fetchBooks(bookStoreService, dispatch)
-    }
-};
-
-export default compose(
-    withBookstore,
-    connect(mapStateToProps, mapDispatchToProps)
-)(BookListContainer);
+export default withBookstore(BookListContainer);
