@@ -22,7 +22,7 @@ const basketReducer = (state = initialState, action) => {
                 error: null
             };
         case actionTypes.BASKET_LOADED:
-            return loadBasket(action);
+            return loadBasket(state, action);
         case actionTypes.BASKET_FAILED:
             return {
                 items: state.items,
@@ -43,10 +43,11 @@ const basketReducer = (state = initialState, action) => {
 };
 
 
-const loadBasket = ({payload}) => {
+const loadBasket = (state, {payload}) => {
 
     if (!payload.length) {
         return {
+            ...state,
             loading: false,
             error: null,
             items: payload
@@ -63,6 +64,7 @@ const loadBasket = ({payload}) => {
     ));
 
     return {
+        ...state,
         items,
         loading: false,
         error: null

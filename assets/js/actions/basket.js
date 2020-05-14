@@ -30,7 +30,10 @@ const addToBasket = (id, dispatch) => {
 const fetchBasketItems = (dispatch) => {
     dispatch(basketRequested());
     basketService.getBasketItems()
-        .then((data) => dispatch(basketLoaded(data)))
+        .then((data) => {
+            dispatch(basketLoaded(data));
+            dispatch(calculateBasketAmount());
+        })
         .catch((error) => dispatch(basketFailed(error)));
 
 };
