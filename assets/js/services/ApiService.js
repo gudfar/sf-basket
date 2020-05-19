@@ -16,7 +16,7 @@ export default class ApiService {
         const data = await fetch(`${this._apiBaseUrl}${url}`, {
             method: "POST",
             headers: {
-                'Accept': 'application/json, text/plain, */*',
+                'Accept': 'application/json*/*',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
@@ -32,7 +32,7 @@ export default class ApiService {
         const data = await fetch(`${this._apiBaseUrl}${url}`, {
             method: "DELETE",
             headers: {
-                'Accept': 'application/json, text/plain, */*',
+                'Accept': 'application/json*/*',
                 'Content-Type': 'application/json'
             },
         });
@@ -41,5 +41,22 @@ export default class ApiService {
                 `, received ${data.status}`)
         }
         return await data.json();
-    }
+    };
+
+
+    patch = async (url, payload) => {
+        const data = await fetch(`${this._apiBaseUrl}${url}`, {
+            method: "PATCH",
+            headers: {
+                'Accept': 'application/json*/*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        if (!data.ok) {
+            throw new Error(`Could not save ${url}` +
+                `, received ${data.status}`)
+        }
+        return await data.json();
+    };
 }

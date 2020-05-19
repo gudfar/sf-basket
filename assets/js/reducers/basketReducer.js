@@ -31,10 +31,11 @@ const basketReducer = (state = initialState, action) => {
             };
         case actionTypes.CALCULATE_BASKET_AMOUNT:
             return calculateBasketAmount(state);
-        case actionTypes.INCREASE_BASKET_ITEM_COUNT:
+        case actionTypes.UPDATE_BASKET_ITEM_COUNT:
+            if (Object.keys(action.payload).length === 1 && Object.keys(action.payload)[0] === 'id') {
+                return deleteBasketItem(state, {payload: action.payload.id});
+            }
             return saveToBasket(state, action);
-        case actionTypes.DECREASE_BASKET_ITEM_COUNT:
-            return saveToBasket(state, action, -1);
         case actionTypes.DELETE_BASKET_ITEM:
             return deleteBasketItem(state, action);
         default:
@@ -73,11 +74,13 @@ const loadBasket = (state, {payload}) => {
 
 /**
  * @param state
- * @param item
- * @param countValue
- * @returns {{items: *}|{items: *[]}}
+ * @param id
+ * @param quantity
+ * @param title
+ * @param price
+ * @returns {{loading: null, error: null, items: *}|{loading: null, error: null, items: *[]}}
  */
-const saveToBasket = (state, {payload: {id, quantity, book: {title, price}}}, countValue = 1) => {
+const saveToBasket = (state, {payload: {id, quantity, book: {title, price}}}) => {
     const { items } = state;
     const itemIndex = items.findIndex(i => i.id === id);
     if (itemIndex !== -1) {

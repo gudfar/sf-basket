@@ -7,6 +7,7 @@ use App\Entity\Book;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class BasketController
@@ -30,8 +31,6 @@ class BasketController extends AbstractFOSRestController
 
         return $basketItems;
     }
-
-
 
     /**
      * @Rest\Post("/api/basket", name="api_basket_save")
@@ -78,7 +77,7 @@ class BasketController extends AbstractFOSRestController
      */
     public function deleteAction(int $id)
     {
-        /** @var Book $book */
+        /** @var BasketItem $basketItem */
         $basketItem = $this->getDoctrine()
             ->getRepository(BasketItem::class)
             ->find($id);
@@ -89,6 +88,42 @@ class BasketController extends AbstractFOSRestController
         $em->flush();
 
         return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+    }
+
+    /**
+     * @param int $id
+     * @param int $counterValue
+     * @Rest\Patch("/api/basket/{id}", name="api_basket_update_count")
+     * @Rest\RequestParam(name="counterValue", description="Counter value")
+     * @Rest\View(serializerGroups={"basket_item"})
+     * @return BasketItem|Response
+     */
+    public function updateBasketItemCount(int $id, int $counterValue)
+    {
+        /** @var BasketItem $basketItem */
+        $basketItem = $this->getDoctrine()
+            ->getRepository(BasketItem::class)
+            ->find($id);
+
+        if (!$basketItem) {
+            return $this->handleView($this->view(['status' => 'BasketItem is not found!'], Response::HTTP_NOT_FOUND));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $basketItem->setQuantity($basketItem->getQuantity() + $counterValue);
+
+
+        if ($basketItem->getQuantity() === 0) {
+            $em->remove($basketItem);
+            $em->flush();
+            return $this->handleView($this->view(['id' => $id], Response::HTTP_OK));
+        }
+
+        $em->persist($basketItem);
+        $em->flush();
+
+        return $basketItem;
     }
 
 }

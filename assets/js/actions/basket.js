@@ -40,15 +40,16 @@ const fetchBasketItems = (dispatch) => {
 
 const calculateBasketAmount = () => ({type: actionTypes.CALCULATE_BASKET_AMOUNT});
 
-const increaseBasketItemCount = (id, dispatch) => {
-    dispatch({type: actionTypes.INCREASE_BASKET_ITEM_COUNT, payload: { id }});
-    dispatch(calculateBasketAmount());
+const updateBasketItemCount = ({id, counterValue}, dispatch) => {
+    dispatch(basketRequested());
+    basketService.updateBasketItemCount(id, counterValue)
+        .then((data) => {
+            dispatch({type: actionTypes.UPDATE_BASKET_ITEM_COUNT, payload: data});
+            dispatch(calculateBasketAmount());
+        })
+        .catch((error) => dispatch(basketFailed(error)));
 };
 
-const decreaseBasketItemCount = (id, dispatch) => {
-    dispatch({type: actionTypes.DECREASE_BASKET_ITEM_COUNT, payload: { id }});
-    dispatch(calculateBasketAmount());
-};
 
 const deleteBasketItem = (id, dispatch) => {
     dispatch(basketRequested());
@@ -62,8 +63,7 @@ const deleteBasketItem = (id, dispatch) => {
 
 export {
     addToBasket,
-    increaseBasketItemCount,
-    decreaseBasketItemCount,
+    updateBasketItemCount,
     deleteBasketItem,
     fetchBasketItems
 };

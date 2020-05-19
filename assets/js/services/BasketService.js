@@ -14,4 +14,8 @@ export default class BasketService {
         const userId = 1;
         return  await this.apiService.get(`/basket/${userId}`);
     };
+
+    updateBasketItemCount = async (id, counterValue) => {
+        return  await this.apiService.patch(`/basket/${id}`, {counterValue});
+    };
 }

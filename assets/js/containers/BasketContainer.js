@@ -2,8 +2,7 @@ import React, {Fragment, useEffect} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import '../../css/shopping-cart-table.css';
 import {
-    increaseBasketItemCount,
-    decreaseBasketItemCount,
+    updateBasketItemCount,
     deleteBasketItem,
     fetchBasketItems
 } from "../actions";
@@ -62,12 +61,12 @@ const BasketContainer = () => {
                                                 <i className="fa fa-trash-o" />
                                             </button>
                                             <button
-                                                // onClick={() => onIncrease(id)}
+                                                onClick={() => updateBasketItemCount({id, counterValue: 1}, dispatch)}
                                                 className="btn btn-outline-success btn-sm float-right">
                                                 <i className="fa fa-plus-circle" />
                                             </button>
                                             <button
-                                                // onClick={() => onDecrease(id)}
+                                                onClick={() => updateBasketItemCount({id, counterValue: -1}, dispatch)}
                                                 className="btn btn-outline-warning btn-sm float-right">
                                                 <i className="fa fa-minus-circle" />
                                             </button>
