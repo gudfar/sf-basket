@@ -6,14 +6,13 @@ export default class BasketService {
     apiService = new ApiService();
 
     saveToBasket = async(id) => {
-        return  await this.apiService.post(BASKET, {id, userId: 1});
+        return  await this.apiService.post(BASKET, {id});
     };
     deleteBasketItem = async(id) => {
         return  await this.apiService.delete(`/basket/${id}`);
     };
     getBasketItems = async() => {
-        const userId = 1;
-        return  await this.apiService.get(`/basket/${userId}`);
+        return  await this.apiService.get(`/basket`);
     };
 
     updateBasketItemCount = async (id, counterValue) => {

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 /**
@@ -29,6 +31,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=45)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BasketItem::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $basketItems;
+
+    public function __construct()
+    {
+        $this->basketItems = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -96,4 +108,44 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Collection|BasketItem[]
+     */
+    public function getBasketItems(): Collection
+    {
+        return $this->basketItems;
+    }
+
+    public function addBasketItem(BasketItem $basketItem): self
+    {
+        if (!$this->basketItems->contains($basketItem)) {
+            $this->basketItems[] = $basketItem;
+            $basketItem->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasketItem(BasketItem $basketItem): self
+    {
+        if ($this->basketItems->contains($basketItem)) {
+            $this->basketItems->removeElement($basketItem);
+            // set the owning side to null (unless already changed)
+            if ($basketItem->getUser() === $this) {
+                $basketItem->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

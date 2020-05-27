@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BasketItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -34,15 +35,19 @@ class BasketItem
     private $book;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="basketItems")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * BasketItem constructor.
+     */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -75,11 +80,18 @@ class BasketItem
         return $this;
     }
 
+    /**
+     * @return Book|null
+     */
     public function getBook(): ?Book
     {
         return $this->book;
     }
 
+    /**
+     * @param Book|null $book
+     * @return BasketItem
+     */
     public function setBook(?Book $book): self
     {
         $this->book = $book;
@@ -87,26 +99,40 @@ class BasketItem
         return $this;
     }
 
-    public function getUser(): ?int
-    {
-        return $this->user;
-    }
-
-    public function setUser(int $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return BasketItem
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param UserInterface|null $user
+     * @return BasketItem
+     */
+    public function setUser(?UserInterface $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

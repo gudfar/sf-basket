@@ -15,7 +15,7 @@ const LoginContainer = () => {
     const { loading, error } = useSelector(
         ({authReducer: {loading, error}}) => ({loading, error})
     );
-    
+
     const {userService} = useContext(ServiceContext);
 
     const [username, setUsername] = useState("");
@@ -39,12 +39,13 @@ const LoginContainer = () => {
         return (<Spinner/>);
     }
 
-    if (error) {
-        return (<ErrorIndicator/>);
-    }
-
     return (
         <div className="login">
+            {error &&
+                <div className="alert alert-danger" role="alert" style={{width: "30%", marginLeft: "35%"}}>
+                    {error.message}
+                </div>
+            }
             <form onSubmit={handleSubmit}>
                 <FormGroup controlId="username">
                     <FormLabel>Username</FormLabel>

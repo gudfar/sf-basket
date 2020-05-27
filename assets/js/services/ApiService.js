@@ -11,7 +11,7 @@ export default class ApiService {
             headers: {
                 'Accept': 'application/json*/*',
                 'Content-Type': 'application/json',
-                'Authorization': `Api-token ${this._userService.getUserToken()}`
+                'Authorization': `API-TOKEN ${this._userService.getUserToken()}`
             },
         };
 
@@ -24,8 +24,8 @@ export default class ApiService {
 
         const data = await fetch(`${this._apiBaseUrl}${url}`, headers);
         if (!data.ok) {
-            throw new Error(`Could not fetch ${url}` +
-                `, received ${data.status}`)
+            const {message} = await data.json();
+            throw new Error(message);
         }
         return await data.json();
     };

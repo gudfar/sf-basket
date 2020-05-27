@@ -17,17 +17,16 @@ class BasketController extends AbstractFOSRestController
 {
     /**
      *
-     * @Rest\Get("/api/basket/{userId}", name="api_basket_items")
-     * @param int $userId
+     * @Rest\Get("/api/basket", name="api_basket_items")
      * @Rest\View()
      * @return object[]
      */
-    public function getBasketItems(int $userId)
+    public function getBasketItems()
     {
         /** @var Book $book */
         $basketItems = $this->getDoctrine()
             ->getRepository(BasketItem::class)
-            ->findBy(['user' => $userId]);
+            ->findBy(['user' => $this->getUser()->getId()]);
 
         return $basketItems;
     }
@@ -35,13 +34,11 @@ class BasketController extends AbstractFOSRestController
     /**
      * @Rest\Post("/api/basket", name="api_basket_save")
      * @Rest\RequestParam(name="id", requirements="\d+", description="Book Id")
-     * @Rest\RequestParam(name="userId", requirements="\d+", description="User Id")
      * @param int $id
-     * @param int $userId
      * @Rest\View(serializerGroups={"basket_item"})
      * @return BasketItem|Response
      */
-    public function saveAction(int $id, int $userId)
+    public function saveAction(int $id)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var Book $book */
@@ -51,7 +48,7 @@ class BasketController extends AbstractFOSRestController
         /** @var BasketItem $basketItem */
         $basketItem = $this->getDoctrine()
             ->getRepository(BasketItem::class)
-            ->findOneBy(['book' => $id, 'user' => $userId]);
+            ->findOneBy(['book' => $id, 'user' => $this->getUser()->getId()]);
 
         $basketItem = $basketItem ? $basketItem : new BasketItem();
 
@@ -61,7 +58,7 @@ class BasketController extends AbstractFOSRestController
 
         $basketItem->setBook($book);
         $basketItem->setQuantity($basketItem->getQuantity() + 1);
-        $basketItem->setUser($userId);
+        $basketItem->setUser($this->getUser());
 
         $em->persist($basketItem);
         $em->flush();
