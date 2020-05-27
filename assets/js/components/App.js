@@ -1,22 +1,19 @@
-import React, {Component} from 'react';
-import {withBookstore} from "./hoc";
-import {CartPage, HomePage} from "./pages";
+import React from 'react';
+import {HomePage, LoginPage} from "./pages";
 import { Switch, Route} from 'react-router-dom';
 import * as Routes from '../constants/routes';
-import {ShopHeader} from "./index";
+import {PublicRoute, PrivateRoute} from "../routes";
 
-class App extends Component {
-    render() {
-        return (
-            <main role="main" className="container">
-                <ShopHeader numItems={5} total={210}/>
-                <Switch>
-                    <Route path={Routes.HOME} exact component={HomePage}/>
-                    <Route path={Routes.CART} exact component={CartPage}/>
-                </Switch>
-            </main>
-        );
-    }
+
+const App = () => {
+    return (
+        <main role="main" className="container">
+            <Switch>
+                <PrivateRoute path={Routes.HOME} component={HomePage} exact/>
+                <PublicRoute path={Routes.LOGIN} restricted={true} component={LoginPage} exact/>
+            </Switch>
+        </main>
+    );
 };
 
-export default withBookstore(App)
+export default App

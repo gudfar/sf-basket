@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../../css/book-list-item.css';
-import {Link} from "react-router-dom";
-import * as Routes from '../constants/routes';
 import {connect } from 'react-redux';
 import {addToBasket} from "../actions";
 
@@ -14,9 +12,7 @@ const BookListItem = ({book, onAddToBasket, loading}) => {
                 <img src={imageUrl} alt="cover" />
             </div>
             <div className="book-details">
-                <Link to={Routes.CART.replace(':id', id)}>
-                    <div className="book-title">{title}</div>
-                </Link>
+                <div className="book-title">{title}</div>
                 <div className="book-author">{author}</div>
                 <div className="book-price">${price}</div>
                 <button disabled={loading} onClick={() => onAddToBasket(book.id)} className="btn btn-info add-to-cart">Add to cart</button>

@@ -13,6 +13,7 @@ class MainController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     * @Route("/login", name="login")
      */
     public function indexAction()
     {

@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {BookList, ErrorIndicator, Spinner} from "../components";
 import {useDispatch, useSelector} from 'react-redux';
-import {withBookstore} from "../components/hoc";
 import {fetchBooks} from "../actions";
+import {ServiceContext} from "../contexts";
 
-const BookListContainer = ({bookStoreService}) => {
+const BookListContainer = () => {
 
+    const {bookStoreService} = useContext(ServiceContext);
     const dispatch = useDispatch();
     const { books, loading, error } = useSelector(
         ({booksReducer: {books, loading, error}}) => ({books, loading, error})
@@ -27,4 +28,4 @@ const BookListContainer = ({bookStoreService}) => {
     return <BookList books={books}/>
 };
 
-export default withBookstore(BookListContainer);
+export default BookListContainer;

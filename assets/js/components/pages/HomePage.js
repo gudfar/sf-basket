@@ -1,13 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {BookListContainer, BasketContainer} from "../../containers";
+import {ShopHeader} from "../index";
 
-export default class HomePage extends Component {
-    render() {
-        return (
-            <div>
-                <BookListContainer />
-                <BasketContainer />
-            </div>
-        );
-    }
+const HomePage = () => {
+    return (
+        <>
+            <ShopHeader/>
+            <BookListContainer />
+            <BasketContainer />
+        </>
+    );
 };
+
+export default HomePage;
